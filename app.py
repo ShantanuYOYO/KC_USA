@@ -14,7 +14,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ── Global CSS (gold/dark theme) ─────────────────────────────────────────────
+# ── Global CSS (gold/dark theme, sticky table headers, no sidebar line) ────
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
@@ -94,78 +94,7 @@ st.markdown("""
     [data-testid="stSidebarCollapseButton"] { top: 10px !important; }
     [data-testid="stSidebar"] > div:first-child { padding-top: 54px !important; }
 
-    /* ── Sidebar ──────────────────────────────────────────────────────── */
-    [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #0C0C0C 0%, #0A0A0A 100%) !important;
-        border-right: 1px solid var(--border-dark) !important;
-    }
-    [data-testid="stSidebar"] * { color: var(--sidebar-text) !important; }
-    [data-testid="stSidebar"] h3 {
-        color: var(--sidebar-accent) !important;
-        font-size: 11px !important;
-        letter-spacing: 2px !important;
-        text-transform: uppercase !important;
-    }
-    [data-testid="stSidebar"] strong { color: #E6C300 !important; }
-    [data-testid="stSidebar"] .stSelectbox label,
-    [data-testid="stSidebar"] .stSlider label,
-    [data-testid="stSidebar"] .stMultiSelect label,
-    [data-testid="stSidebar"] .stRadio label {
-        color: var(--gold-dim) !important;
-        font-weight: 600 !important;
-        font-size: 10px !important;
-        letter-spacing: 1px !important;
-        text-transform: uppercase !important;
-    }
-    [data-testid="stSidebar"] .stMarkdown p {
-        color: #888 !important;
-        font-size: 11px !important;
-    }
-    [data-testid="stSelectbox"] > div > div,
-    [data-testid="stMultiSelect"] > div > div {
-        background: #1A1A1A !important;
-        border: 1px solid var(--border-dark) !important;
-        color: #D4AF37 !important;
-        border-radius: 8px !important;
-        font-size: 12px !important;
-    }
-
-    /* ── Buttons ──────────────────────────────────────────────────────── */
-    .stButton > button {
-        background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%) !important;
-        color: var(--gold-light) !important;
-        border: 1px solid var(--border-bright) !important;
-        border-radius: 8px !important;
-        font-weight: 700 !important;
-        font-size: 11px !important;
-        letter-spacing: 1.5px !important;
-        text-transform: uppercase !important;
-        box-shadow: 0 2px 10px rgba(212,175,55,0.12) !important;
-        transition: all 0.2s ease !important;
-    }
-    .stButton > button:hover {
-        background: linear-gradient(135deg, #2A2A2A 0%, #1A1A1A 100%) !important;
-        box-shadow: 0 4px 18px rgba(212,175,55,0.30) !important;
-        border-color: var(--gold-light) !important;
-    }
-
-    /* ── File uploader ────────────────────────────────────────────────── */
-    [data-testid="stFileUploader"] {
-        background: #1A1A1A !important;
-        border: 2px dashed rgba(212,175,55,0.25) !important;
-        border-radius: 12px !important;
-        padding: 28px !important;
-    }
-
-    /* ── Alerts / info boxes ──────────────────────────────────────────── */
-    [data-testid="stAlert"] {
-        background: #1A1A1A !important;
-        border: 1px solid var(--border-dark) !important;
-        border-radius: 8px !important;
-        color: var(--sidebar-text) !important;
-    }
-
-    /* ── Report / page title ──────────────────────────────────────────── */
+    /* ── Report title ── */
     .report-title {
         background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%);
         color: #D4AF37;
@@ -229,7 +158,7 @@ st.markdown("""
         letter-spacing: 2px; color: #D4AF37; line-height: 1;
     }
 
-    /* ── Section headings ─────────────────────────────────────────────── */
+    /* ── Section headings ── */
     .section-heading {
         font-family: 'Bebas Neue', sans-serif;
         font-size: 22px;
@@ -256,7 +185,9 @@ st.markdown("""
         box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
     }
 
-    /* ── Tables (gold/dark theme — identical to Brand Sales Dashboard) ── */
+    /* ══════════════════════════════════════════════════════════════════
+       Gold‑theme HTML tables – with STICKY HEADERS
+       ══════════════════════════════════════════════════════════════════ */
     .table-scroll {
         overflow-y: auto;
         border: 1px solid rgba(212,175,55,0.2);
@@ -284,15 +215,15 @@ st.markdown("""
         text-transform: uppercase;
         padding: 10px 12px;
         text-align: left !important;
-        border-bottom: 2px solid rgba(212,175,55,0.6);
-        border-right: 1px solid rgba(212,175,55,0.10);
         white-space: nowrap;
+        /* ── Clean look & STICKY ── */
+        border: none !important;
+        position: sticky;
+        top: 0;
+        z-index: 2;
     }
-    .table-scroll th:last-child { border-right: none; }
-    .table-scroll th:nth-child(2),
-    .table-scroll th:nth-child(3),
-    .table-scroll th:nth-child(4),
-    .table-scroll th:nth-child(5) { text-align: center !important; }
+    .table-scroll th:not(:first-child) { text-align: center !important; }
+
     .table-scroll td {
         padding: 7px 12px;
         border-bottom: 1px solid rgba(212,175,55,0.10);
@@ -304,14 +235,14 @@ st.markdown("""
         white-space: nowrap;
     }
     .table-scroll td:last-child { border-right: none; }
-    .table-scroll td:nth-child(2),
-    .table-scroll td:nth-child(3),
-    .table-scroll td:nth-child(4),
-    .table-scroll td:nth-child(5) {
+
+    /* Numeric columns (2nd onwards) — gold + centered */
+    .table-scroll td:not(:first-child) {
         text-align: center;
         font-weight: 900;
         color: #D4AF37;
     }
+
     .table-scroll tr:nth-child(even) td { background-color: #191919; }
     .table-scroll tr:nth-child(odd)  td { background-color: #131313; }
     .table-scroll tr:hover td {
@@ -319,44 +250,77 @@ st.markdown("""
         color: #F1C40F !important;
     }
 
-    /* ── Chart wrapper ────────────────────────────────────────────────── */
-    .chart-wrap {
-        background: linear-gradient(160deg, #111111 0%, #0E0E0E 100%);
-        border: 1px solid rgba(212, 175, 55, 0.18);
-        border-radius: 12px;
-        padding: 20px;
-        box-shadow: 0 4px 24px rgba(0,0,0,0.5);
-        margin-bottom: 20px;
+    /* ── Sidebar (no vertical line) ────────────────────────────────────── */
+    [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #0C0C0C 0%, #0A0A0A 100%) !important;
+        border-right: none !important;
     }
-    .chart-label {
-        font-size: 11px; font-weight: 900;
-        letter-spacing: 2.5px;
-        text-transform: uppercase;
-        color: #D4AF37;
-        margin-bottom: 12px;
-        padding-bottom: 8px;
-        border-bottom: 1px solid rgba(212,175,55,0.15);
+    [data-testid="stAppViewContainer"] { border-right: none !important; }
+    [data-testid="stMain"]            { border-right: none !important; }
+    .block-container                  { border-right: none !important; }
+
+    [data-testid="stSidebar"] * { color: var(--sidebar-text) !important; }
+    [data-testid="stSidebar"] h3 {
+        color: var(--sidebar-accent) !important;
+        font-size: 11px !important;
+        letter-spacing: 2px !important;
+        text-transform: uppercase !important;
+    }
+    [data-testid="stSidebar"] strong { color: #E6C300 !important; }
+    [data-testid="stSidebar"] .stSelectbox label,
+    [data-testid="stSidebar"] .stSlider label,
+    [data-testid="stSidebar"] .stMultiSelect label,
+    [data-testid="stSidebar"] .stRadio label {
+        color: var(--gold-dim) !important;
+        font-weight: 600 !important;
+        font-size: 10px !important;
+        letter-spacing: 1px !important;
+        text-transform: uppercase !important;
+    }
+    [data-testid="stSidebar"] .stMarkdown p {
+        color: #888 !important;
+        font-size: 11px !important;
+    }
+    [data-testid="stSelectbox"] > div > div,
+    [data-testid="stMultiSelect"] > div > div {
+        background: #1A1A1A !important;
+        border: 1px solid var(--border-dark) !important;
+        color: #D4AF37 !important;
+        border-radius: 8px !important;
+        font-size: 12px !important;
     }
 
-    /* ── Dataframe override (raw data expander only) ──────────────────── */
-    div[data-testid="stDataFrame"] { border-radius: 10px; overflow: hidden; }
-    div[data-testid="stDataFrame"] th {
-        background-color: #1C1C1C !important;
-        color: #D4AF37 !important;
+    .stButton > button {
+        background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%) !important;
+        color: var(--gold-light) !important;
+        border: 1px solid var(--border-bright) !important;
+        border-radius: 8px !important;
         font-weight: 700 !important;
         font-size: 11px !important;
         letter-spacing: 1.5px !important;
         text-transform: uppercase !important;
-        padding: 10px 8px !important;
+        box-shadow: 0 2px 10px rgba(212,175,55,0.12) !important;
+        transition: all 0.2s ease !important;
     }
-    div[data-testid="stDataFrame"] td {
-        color: #C8C8C8 !important;
-        font-size: 12px !important;
-        padding: 8px !important;
-        background-color: #131313 !important;
+    .stButton > button:hover {
+        background: linear-gradient(135deg, #2A2A2A 0%, #1A1A1A 100%) !important;
+        box-shadow: 0 4px 18px rgba(212,175,55,0.30) !important;
+        border-color: var(--gold-light) !important;
     }
 
-    /* ── Sidebar stat pill ────────────────────────────────────────────── */
+    [data-testid="stFileUploader"] {
+        background: #1A1A1A !important;
+        border: 2px dashed rgba(212,175,55,0.25) !important;
+        border-radius: 12px !important;
+        padding: 28px !important;
+    }
+    [data-testid="stAlert"] {
+        background: #1A1A1A !important;
+        border: 1px solid var(--border-dark) !important;
+        border-radius: 8px !important;
+        color: var(--sidebar-text) !important;
+    }
+
     .stat-pill {
         background: #1A1A1A;
         border: 1px solid var(--border-dark);
@@ -371,19 +335,17 @@ st.markdown("""
     .stat-pill span:first-child { color: #999; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
     .stat-pill span:last-child  { font-weight: 700; color: var(--gold-light); }
 
-    /* ── Scrollbar ────────────────────────────────────────────────────── */
+    hr { border-color: var(--border-dark) !important; margin: 12px 0 !important; }
+    p, .stMarkdown p { color: var(--sidebar-text) !important; font-size: 12px !important; }
+    label { color: var(--gold-dim) !important; }
+
     ::-webkit-scrollbar { width: 4px; height: 4px; }
     ::-webkit-scrollbar-track { background: #0A0A0A; }
     ::-webkit-scrollbar-thumb { background: rgba(212,175,55,0.25); border-radius: 2px; }
 
-    /* ── Layout ───────────────────────────────────────────────────────── */
     .block-container { padding: 3.5rem 1rem 0.5rem; }
     div[data-testid="stVerticalBlock"] > div { margin-top: 0; padding-top: 0; }
     .stColumn { padding: 3px; }
-
-    hr { border-color: var(--border-dark) !important; margin: 12px 0 !important; }
-    p, .stMarkdown p { color: var(--sidebar-text) !important; font-size: 12px !important; }
-    label { color: var(--gold-dim) !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -477,7 +439,7 @@ def _dark_layout(fig, xaxis_title, yaxis_title, extra_xaxis=None, height=500):
     return fig
 
 
-# ── HTML table renderer (gold/dark theme) ────────────────────────────────────
+# ── HTML table renderer (gold/dark theme, sticky headers already in CSS) ─────
 def show_html_table(table_data, display_name, table_height=420):
     """Render a distribution table using the same gold/dark HTML theme
     as the Brand Sales Dashboard — replaces st.dataframe()."""
@@ -514,7 +476,7 @@ st.markdown("""
     🇺🇸  USA Sales Report
     <div class="report-subtitle" style="font-size:13px;letter-spacing:3px;color:rgba(212,175,55,0.6);
          font-family:'Outfit',sans-serif;font-weight:500;margin-top:4px;">
-        Comprehensive Sales Analytics Dashboard · Feb 2026
+        Comprehensive Sales Analytics Dashboard · Apr 2026
     </div>
 </div>
 <hr>
@@ -772,7 +734,7 @@ if uploaded_file is not None:
                 (col1, "📦", "Initial Qty",    f"{f_init:,.0f}"),
                 (col2, "💰", "Total Qty Sold", f"{f_sold:,.0f}"),
                 (col3, "⚖️", "Balance Qty",   f"{f_bal:,.0f}"),
-                (col4, "🔄", "Return %",       f"{return_pct:.1f}%"),
+                (col4, "🔄", "Return % Jan-Apr 2026",       f"{return_pct:.1f}%"),
                 (col5, "📈", "Sales %",        f"{f_spct:.1f}%"),
             ]
             for col, icon, label, value in kpis:
@@ -853,7 +815,7 @@ if uploaded_file is not None:
                     text=website_data['QTY'].apply(lambda v: f"{v:,.0f}"),
                     marker=dict(color=bar_colors, line=dict(color='rgba(255,255,255,0.06)', width=1), cornerradius=6),
                 ))
-                fig_ws.update_layout(title="Sales by Marketplace")
+                fig_ws.update_layout(title="Sales by Marketplace till Apr 2026")
                 fig_ws = _dark_layout(fig_ws, "Marketplace", "Quantity Sold",
                                       extra_xaxis={'categoryorder': 'array',
                                                    'categoryarray': website_data['WEBSITE'].tolist()})
@@ -888,7 +850,7 @@ if uploaded_file is not None:
                     text=size_data['QTY'].apply(lambda v: f"{v:,.0f}"),
                     marker=dict(color=gradient, line=dict(color='rgba(255,255,255,0.06)', width=1), cornerradius=6),
                 ))
-                fig_sz.update_layout(title="Sales by Size (US)")
+                fig_sz.update_layout(title="Sales by Size (US) till Apr 2026")
                 fig_sz = _dark_layout(
                     fig_sz, "Size (US)", "Quantity Sold",
                     extra_xaxis={
@@ -935,7 +897,7 @@ if uploaded_file is not None:
                     text=monthly_agg['QTY'].apply(lambda v: f"{v:,.0f}"),
                     marker=dict(color=bar_colors, line=dict(color='rgba(255,255,255,0.06)', width=1), cornerradius=5),
                 ))
-                fig_mo.update_layout(title="Sales by Month-Year")
+                fig_mo.update_layout(title="Sales by Month-Year till Apr 2026")
                 fig_mo = _dark_layout(
                     fig_mo, "Month-Year", "Quantity Sold",
                     extra_xaxis={'categoryorder': 'array', 'categoryarray': ordered_labels},
