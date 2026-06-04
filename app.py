@@ -1,7 +1,6 @@
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
-import plotly.express as px
 import plotly.graph_objects as go
 import numpy as np
 import warnings
@@ -441,15 +440,11 @@ def _dark_layout(fig, xaxis_title, yaxis_title, extra_xaxis=None, height=500):
 
 # ── HTML table renderer (gold/dark theme, sticky headers already in CSS) ─────
 def show_html_table(table_data, display_name, table_height=420):
-    """Render a distribution table using the same gold/dark HTML theme
-    as the Brand Sales Dashboard — replaces st.dataframe()."""
     if table_data.empty:
         st.info(f"No data for {display_name}")
         return
 
     display_df = table_data.copy()
-
-    # Rename internal column names → friendly display names
     display_df = display_df.rename(columns={
         'INITIAL_QTY':      'Initial Qty',
         'TOTAL_QTY':        'Total Qty Sold',
@@ -457,7 +452,6 @@ def show_html_table(table_data, display_name, table_height=420):
         'SALES_PERCENTAGE': 'Sales %',
     })
 
-    # Format numeric columns
     display_df['Initial Qty']    = display_df['Initial Qty'].apply(lambda x: f"{int(x):,}")
     display_df['Total Qty Sold'] = display_df['Total Qty Sold'].apply(lambda x: f"{int(x):,}")
     display_df['Balance Qty']    = display_df['Balance Qty'].apply(lambda x: f"{int(x):,}")
@@ -488,7 +482,7 @@ uploaded_file = st.file_uploader(
 )
 
 
-# ── Data loader ───────────────────────────────────────────────────────────────
+# ── Data loader (FIX: aggregate by COLAB to preserve total quantities) ──────
 @st.cache_data(ttl=3600)
 def load_and_process_data(uploaded_file):
     try:
@@ -541,7 +535,21 @@ def load_and_process_data(uploaded_file):
             'TOTAL_QTY':   pd.to_numeric(sheet_a[total_qty_col], errors='coerce').fillna(0),
             'BALANCE':     pd.to_numeric(sheet_a[balance_col], errors='coerce').fillna(0)
         })
-        sheet_a_unique = sheet_a_clean.drop_duplicates(subset=['COLAB'], keep='first')
+
+        # ✅ Aggregate by COLAB to sum quantities and keep one row per COLAB
+        agg_dict = {
+            'SEASON': 'first',
+            'BRAND': 'first',
+            'CATEGORY': 'first',
+            'SUBCATEGORY': 'first',
+            'STYLE_NAMES': 'first',
+            'STYLE_NO': 'first',
+            'COLOR': 'first',
+            'INITIAL_QTY': 'sum',
+            'TOTAL_QTY': 'sum',
+            'BALANCE': 'sum',
+        }
+        sheet_a_unique = sheet_a_clean.groupby('COLAB', as_index=False).agg(agg_dict)
 
         # ── Sheet B ────────────────────────────────────────────────────────
         website_col    = find_column(sheet_b, ['WEBSITE', 'Website'])
@@ -573,7 +581,6 @@ def load_and_process_data(uploaded_file):
         sheet_b_raw['YEAR_NUM']   = sheet_b_raw['ORDER_DATE'].dt.year
         sheet_b_raw['MONTH_YEAR'] = sheet_b_raw['ORDER_DATE'].dt.strftime('%b-%y')
 
-        # No more merged_df – return raw data only
         return sheet_a_unique, sheet_b_raw
 
     except Exception as e:
@@ -652,7 +659,6 @@ if uploaded_file is not None:
             selected_month_years = st.multiselect("Month-Year", ['All'] + month_years, default='All')
 
             # ── Cross‑filter logic: intersection of Sheet A and Sheet B COLABs ──
-            # 1. COLABs that pass Sheet A filters
             filtered_a = sheet_a_unique.copy()
             if 'All' not in selected_brands        and selected_brands:
                 filtered_a = filtered_a[filtered_a['BRAND'].isin(selected_brands)]
@@ -669,7 +675,6 @@ if uploaded_file is not None:
 
             valid_a_colabs = set(filtered_a['COLAB'].unique())
 
-            # 2. COLABs that appear in Sheet B after Website + Month‑Year filters
             filtered_b_intersect = sheet_b_raw[sheet_b_raw['COLAB'].isin(valid_a_colabs)].copy()
             if 'All' not in selected_websites and selected_websites:
                 filtered_b_intersect = filtered_b_intersect[filtered_b_intersect['WEBSITE'].isin(selected_websites)]
@@ -677,14 +682,11 @@ if uploaded_file is not None:
                 filtered_b_intersect = filtered_b_intersect[filtered_b_intersect['MONTH_YEAR'].isin(selected_month_years)]
 
             valid_b_colabs = set(filtered_b_intersect['COLAB'].unique())
-
-            # Intersection = visible COLABs
             valid_colabs = valid_a_colabs.intersection(valid_b_colabs)
 
-            # 3. Final filtered datasets for KPIs, tables, charts
+            # Final filtered datasets
             filtered_sheet_a = sheet_a_unique[sheet_a_unique['COLAB'].isin(valid_colabs)].copy()
 
-            # Orders after all B filters (Website, Size, Month‑Year) – used everywhere
             filtered_b_final = sheet_b_raw[sheet_b_raw['COLAB'].isin(valid_colabs)].copy()
             if 'All' not in selected_websites and selected_websites:
                 filtered_b_final = filtered_b_final[filtered_b_final['WEBSITE'].isin(selected_websites)]
@@ -693,7 +695,7 @@ if uploaded_file is not None:
             if 'All' not in selected_month_years and selected_month_years:
                 filtered_b_final = filtered_b_final[filtered_b_final['MONTH_YEAR'].isin(selected_month_years)]
 
-            # ── Sidebar DATASET pills (updated with cross‑filter numbers) ──
+            # Sidebar DATASET pills
             st.markdown("---")
             st.markdown("### DATASET")
             st.markdown(f"""
@@ -717,12 +719,12 @@ if uploaded_file is not None:
             st.warning("⚠️ No COLABs match the selected filters. Please adjust your selections.")
             st.stop()
 
-        # ── KPI row (stock from A, orders from B) ─────────────────────────
+        # ── KPIs ────────────────────────────────────────────────────────
         st.markdown('<div class="section-heading">◈  Key Performance Indicators</div>', unsafe_allow_html=True)
 
         f_init = filtered_sheet_a['INITIAL_QTY'].sum()
         f_bal  = filtered_sheet_a['BALANCE'].sum()
-        f_sold = filtered_b_final['QTY'].sum()               # from orders
+        f_sold = filtered_b_final['QTY'].sum()
         f_spct = (f_sold / f_init * 100) if f_init > 0 else 0
 
         col1, col2, col3, col4, col5 = st.columns(5)
@@ -744,20 +746,18 @@ if uploaded_file is not None:
 
         st.markdown("<hr>", unsafe_allow_html=True)
 
-        # ── Distribution tables (left‑join on COLAB, aggregate) ──────────
+        # ── Distribution tables ───────────────────────────────────────────
         st.markdown('<div class="section-heading">◈  Sales Distribution Tables</div>', unsafe_allow_html=True)
 
-        # Merge stock (filtered_sheet_a) with aggregated orders (filtered_b_final)
         orders_agg = filtered_b_final.groupby('COLAB')['QTY'].sum().reset_index()
         orders_agg.rename(columns={'QTY': 'TOTAL_QTY'}, inplace=True)
 
-        # Only COLABs that are in the intersection (already guaranteed)
         merged_for_tables = pd.merge(
             filtered_sheet_a[['COLAB', 'BRAND', 'SEASON', 'CATEGORY', 'SUBCATEGORY', 'COLOR',
                               'INITIAL_QTY', 'BALANCE']],
             orders_agg,
             on='COLAB',
-            how='inner'   # intersection ensures no missing
+            how='inner'
         )
 
         def analyze_group_crossfilter(group_col, display_name):
@@ -800,10 +800,10 @@ if uploaded_file is not None:
 
         st.markdown("<hr>", unsafe_allow_html=True)
 
-        # ── Visual Charts (based on filtered_b_final) ──────────────────
+        # ── Visual Charts ────────────────────────────────────────────────
         st.markdown('<div class="section-heading">◈  Visual Analytics</div>', unsafe_allow_html=True)
 
-        # CHART 1 — Marketplace
+        # Marketplace
         st.markdown('<div class="chart-wrap"><div class="chart-label">🌐  Marketplace Wise Qty Sold</div>', unsafe_allow_html=True)
         website_data = (
             filtered_b_final[
@@ -833,7 +833,7 @@ if uploaded_file is not None:
             st.info("No marketplace data available for the current filters")
         st.markdown("</div>", unsafe_allow_html=True)
 
-        # CHART 2 — Size
+        # Size chart
         st.markdown('<div class="chart-wrap"><div class="chart-label">📏  Size Wise Qty Distribution</div>', unsafe_allow_html=True)
         size_data = (
             filtered_b_final[
@@ -877,7 +877,7 @@ if uploaded_file is not None:
             st.info("No size data available for the current filters")
         st.markdown("</div>", unsafe_allow_html=True)
 
-        # CHART 3 — Month-Year
+        # Month-Year chart
         st.markdown('<div class="chart-wrap"><div class="chart-label">📅  Month-Year Wise Qty Distribution</div>', unsafe_allow_html=True)
         monthly_b = filtered_b_final[filtered_b_final['ORDER_DATE'].notna()].copy()
         if not monthly_b.empty:
@@ -917,7 +917,7 @@ if uploaded_file is not None:
             st.info("No order date data available for the current filters")
         st.markdown("</div>", unsafe_allow_html=True)
 
-        # Raw data expander
+        # Raw data
         with st.expander("🔍 View Filtered Order Data"):
             st.dataframe(filtered_b_final, use_container_width=True)
 
