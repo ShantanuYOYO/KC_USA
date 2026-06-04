@@ -610,7 +610,7 @@ if uploaded_file is not None:
         total_qty_sold    = sheet_a_unique['TOTAL_QTY'].sum()
         total_balance     = sheet_a_unique['BALANCE'].sum()
         sales_pct         = (total_qty_sold / total_initial_qty * 100) if total_initial_qty > 0 else 0
-        return_pct        = 19.22
+        return_pct        = 35
 
         st.success(f"✅ Data loaded successfully! {len(merged_df):,} records processed")
         st.markdown("<hr>", unsafe_allow_html=True)
