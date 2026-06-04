@@ -37,7 +37,6 @@ st.markdown("""
         background: var(--bg-base) !important;
     }
 
-    /* ── Dot‑grid background ──────────────────────────────────────────── */
     [data-testid="stAppViewContainer"]::before {
         content: '';
         position: fixed; inset: 0;
@@ -47,37 +46,22 @@ st.markdown("""
         z-index: 0;
     }
 
-    /* ── Hide ALL Streamlit chrome ────────────────────────────────────── */
-    #MainMenu                          { visibility: hidden !important; display: none !important; }
-    footer                             { visibility: hidden !important; display: none !important; }
-    header                             { visibility: hidden !important; display: none !important; }
-    [data-testid="stToolbar"]          { display: none !important; }
-    [data-testid="stDecoration"]       { display: none !important; }
-    [data-testid="stStatusWidget"]     { display: none !important; }
-    [data-testid="manage-app-button"]  { display: none !important; }
-    .viewerBadge_container__r5tak     { display: none !important; }
-    .viewerBadge_link__qRIco          { display: none !important; }
-    [data-testid="baseButton-header"]  { display: none !important; }
-    button[kind="header"]              { display: none !important; }
-    .stDeployButton                    { display: none !important; }
-    ._profileContainer_gzau3_53       { display: none !important; }
-
-    /* ── Sidebar collapse/expand tab ──────────────────────────────────── */
-    [data-testid="collapsedControl"] {
-        top: 10px !important;
-        height: 32px !important;
-        width: 20px !important;
+    #MainMenu, footer, header, [data-testid="stToolbar"],
+    [data-testid="stDecoration"], [data-testid="stStatusWidget"],
+    [data-testid="manage-app-button"], .viewerBadge_container__r5tak,
+    .viewerBadge_link__qRIco, [data-testid="baseButton-header"],
+    button[kind="header"], .stDeployButton, ._profileContainer_gzau3_53 {
+        visibility: hidden !important; display: none !important;
     }
+
+    [data-testid="collapsedControl"] { top: 10px !important; height: 32px !important; width: 20px !important; }
     [data-testid="collapsedControl"] button,
     [data-testid="stSidebarCollapseButton"] button {
-        width: 32px !important;
-        height: 32px !important;
-        border-radius: 8px !important;
+        width: 32px !important; height: 32px !important; border-radius: 8px !important;
         background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%) !important;
         border: 1px solid rgba(212, 175, 55, 0.45) !important;
         box-shadow: 0 2px 12px rgba(212, 175, 55, 0.18) !important;
-        color: #D4AF37 !important;
-        transition: all 0.2s ease !important;
+        color: #D4AF37 !important; transition: all 0.2s ease !important;
     }
     [data-testid="collapsedControl"] button:hover,
     [data-testid="stSidebarCollapseButton"] button:hover {
@@ -86,255 +70,82 @@ st.markdown("""
         background: linear-gradient(135deg, #2A2A2A 0%, #1A1A1A 100%) !important;
     }
     [data-testid="collapsedControl"] svg,
-    [data-testid="stSidebarCollapseButton"] svg {
-        stroke: #D4AF37 !important;
-        fill: none !important;
-    }
+    [data-testid="stSidebarCollapseButton"] svg { stroke: #D4AF37 !important; fill: none !important; }
     [data-testid="stSidebarCollapseButton"] { top: 10px !important; }
     [data-testid="stSidebar"] > div:first-child { padding-top: 54px !important; }
 
-    /* ── Report title ── */
     .report-title {
         background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%);
-        color: #D4AF37;
-        padding: 18px 28px;
-        border-radius: 12px;
-        text-align: center;
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 32px;
-        font-weight: 900;
-        letter-spacing: 5px;
-        text-transform: uppercase;
-        margin-bottom: 14px;
-        border: 1px solid var(--border-bright);
+        color: #D4AF37; padding: 18px 28px; border-radius: 12px; text-align: center;
+        font-family: 'Bebas Neue', sans-serif; font-size: 32px; font-weight: 900;
+        letter-spacing: 5px; text-transform: uppercase; margin-bottom: 14px;
+        border: 1px solid rgba(212, 175, 55, 0.35);
         box-shadow: 0 8px 30px rgba(0,0,0,0.8), 0 0 15px rgba(212,175,55,0.15);
-        position: relative;
-        overflow: hidden;
+        position: relative; overflow: hidden;
     }
     .report-title::before {
-        content: '';
-        position: absolute; top: 0; left: 0; right: 0; height: 2px;
+        content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
         background: linear-gradient(90deg, transparent, #D4AF37, #F1C40F, #E67E22, transparent);
     }
     .report-subtitle {
-        font-size: 13px;
-        color: var(--gold-dim);
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        font-weight: 500;
-        font-family: 'Outfit', sans-serif;
+        font-size: 13px; color: rgba(212,175,55,0.6); letter-spacing: 3px;
+        text-transform: uppercase; font-weight: 500; font-family: 'Outfit', sans-serif;
     }
 
-    /* ── KPI cards ────────────────────────────────────────────────────── */
     .kpi-card {
         background: linear-gradient(145deg, #1A1A1A 0%, #101010 100%);
-        border: 1px solid rgba(212, 175, 55, 0.25);
-        border-radius: 12px;
-        padding: 18px 16px;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
+        border: 1px solid rgba(212, 175, 55, 0.25); border-radius: 12px;
+        padding: 18px 16px; text-align: center; position: relative; overflow: hidden;
         box-shadow: 0 6px 18px rgba(0,0,0,0.7), 0 0 8px rgba(212,175,55,0.08);
         transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .kpi-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 30px rgba(212,175,55,0.2);
-    }
+    .kpi-card:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(212,175,55,0.2); }
     .kpi-card::before {
-        content: '';
-        position: absolute; top: 0; left: 0; right: 0; height: 2px;
+        content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
         background: linear-gradient(90deg, transparent, #D4AF37, #F1C40F, transparent);
     }
     .kpi-icon   { font-size: 20px; margin-bottom: 5px; }
-    .kpi-label  {
-        font-size: 10px; font-weight: 700; letter-spacing: 2px;
-        text-transform: uppercase; color: #FFFFFF; margin-bottom: 5px;
-    }
-    .kpi-value  {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 32px; font-weight: 900;
-        letter-spacing: 2px; color: #D4AF37; line-height: 1;
-    }
+    .kpi-label  { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #FFFFFF; margin-bottom: 5px; }
+    .kpi-value  { font-family: 'Bebas Neue', sans-serif; font-size: 32px; font-weight: 900; letter-spacing: 2px; color: #D4AF37; line-height: 1; }
 
-    /* ── Section headings ── */
     .section-heading {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 22px;
-        color: #D4AF37;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        margin-bottom: 16px;
-        padding-bottom: 8px;
-        border-bottom: 1px solid rgba(212,175,55,0.2);
+        font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: #D4AF37;
+        letter-spacing: 3px; text-transform: uppercase; margin-bottom: 16px;
+        padding-bottom: 8px; border-bottom: 1px solid rgba(212,175,55,0.2);
     }
 
-    /* ── Card title (table header bar) ───────────────────────────────── */
     .card-title {
-        background: #1C1C1C;
-        color: #D4AF37;
-        padding: 9px 16px;
-        border-radius: 10px 10px 0 0;
-        font-size: 11px; font-weight: 900;
-        letter-spacing: 2.5px;
-        text-transform: uppercase;
-        text-align: center;
-        border: 1px solid rgba(212,175,55,0.25);
-        border-bottom: 1px solid rgba(212,175,55,0.15);
-        box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+        background: #1C1C1C; color: #D4AF37; padding: 9px 16px; border-radius: 10px 10px 0 0;
+        font-size: 11px; font-weight: 900; letter-spacing: 2.5px; text-transform: uppercase;
+        text-align: center; border: 1px solid rgba(212,175,55,0.25);
+        border-bottom: 1px solid rgba(212,175,55,0.15); box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
     }
 
-    /* ══════════════════════════════════════════════════════════════════
-       Gold‑theme HTML tables – with STICKY HEADERS
-       ══════════════════════════════════════════════════════════════════ */
-    .table-scroll {
-        overflow-y: auto;
-        border: 1px solid rgba(212,175,55,0.2);
-        border-top: none;
-        border-radius: 0 0 10px 10px;
-        box-shadow: 0 6px 22px rgba(0,0,0,0.6);
-        margin-bottom: 0;
-    }
-    .table-scroll table {
-        width: 100%;
-        border-collapse: collapse;
-        table-layout: auto;
-        font-family: 'Outfit', sans-serif;
-        font-size: 13px;
-        font-weight: 800;
-        color: #FFFFFF;
-        background: #131313;
-    }
+    .table-scroll { overflow-y: auto; border: 1px solid rgba(212,175,55,0.2); border-top: none; border-radius: 0 0 10px 10px; box-shadow: 0 6px 22px rgba(0,0,0,0.6); margin-bottom: 0; }
+    .table-scroll table { width: 100%; border-collapse: collapse; table-layout: auto; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 800; color: #FFFFFF; background: #131313; }
     .table-scroll th {
-        background-color: #F0F0F0 !important;
-        color: #000000 !important;
-        font-weight: 900 !important;
-        font-size: 12.5px !important;
-        letter-spacing: 1.8px;
-        text-transform: uppercase;
-        padding: 10px 12px;
-        text-align: left !important;
-        white-space: nowrap;
-        border: none !important;
-        position: sticky;
-        top: 0;
-        z-index: 2;
+        background-color: #F0F0F0 !important; color: #000000 !important; font-weight: 900 !important;
+        font-size: 12.5px !important; letter-spacing: 1.8px; text-transform: uppercase; padding: 10px 12px;
+        text-align: left !important; white-space: nowrap; border: none !important; position: sticky; top: 0; z-index: 2;
     }
     .table-scroll th:not(:first-child) { text-align: center !important; }
-
-    .table-scroll td {
-        padding: 7px 12px;
-        border-bottom: 1px solid rgba(212,175,55,0.10);
-        border-right: 1px solid rgba(212,175,55,0.10);
-        font-weight: 800;
-        font-size: 13px;
-        text-align: left;
-        color: #FFFFFF;
-        white-space: nowrap;
-    }
+    .table-scroll td { padding: 7px 12px; border-bottom: 1px solid rgba(212,175,55,0.10); border-right: 1px solid rgba(212,175,55,0.10); font-weight: 800; font-size: 13px; text-align: left; color: #FFFFFF; white-space: nowrap; }
     .table-scroll td:last-child { border-right: none; }
-
-    .table-scroll td:not(:first-child) {
-        text-align: center;
-        font-weight: 900;
-        color: #D4AF37;
-    }
-
+    .table-scroll td:not(:first-child) { text-align: center; font-weight: 900; color: #D4AF37; }
     .table-scroll tr:nth-child(even) td { background-color: #191919; }
     .table-scroll tr:nth-child(odd)  td { background-color: #131313; }
-    .table-scroll tr:hover td {
-        background-color: #2A2A2A !important;
-        color: #F1C40F !important;
-    }
+    .table-scroll tr:hover td { background-color: #2A2A2A !important; color: #F1C40F !important; }
 
-    /* ── Sidebar (no vertical line) ────────────────────────────────────── */
-    [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #0C0C0C 0%, #0A0A0A 100%) !important;
-        border-right: none !important;
-    }
-    [data-testid="stAppViewContainer"] { border-right: none !important; }
-    [data-testid="stMain"]            { border-right: none !important; }
-    .block-container                  { border-right: none !important; }
+    [data-testid="stSidebar"] { background: linear-gradient(180deg, #0C0C0C 0%, #0A0A0A 100%) !important; border-right: none !important; }
+    [data-testid="stAppViewContainer"], [data-testid="stMain"], .block-container { border-right: none !important; }
 
-    [data-testid="stSidebar"] * { color: var(--sidebar-text) !important; }
-    [data-testid="stSidebar"] h3 {
-        color: var(--sidebar-accent) !important;
-        font-size: 11px !important;
-        letter-spacing: 2px !important;
-        text-transform: uppercase !important;
-    }
-    [data-testid="stSidebar"] strong { color: #E6C300 !important; }
-    [data-testid="stSidebar"] .stSelectbox label,
-    [data-testid="stSidebar"] .stSlider label,
-    [data-testid="stSidebar"] .stMultiSelect label,
-    [data-testid="stSidebar"] .stRadio label {
-        color: var(--gold-dim) !important;
-        font-weight: 600 !important;
-        font-size: 10px !important;
-        letter-spacing: 1px !important;
-        text-transform: uppercase !important;
-    }
-    [data-testid="stSidebar"] .stMarkdown p {
-        color: #888 !important;
-        font-size: 11px !important;
-    }
-    [data-testid="stSelectbox"] > div > div,
-    [data-testid="stMultiSelect"] > div > div {
-        background: #1A1A1A !important;
-        border: 1px solid var(--border-dark) !important;
-        color: #D4AF37 !important;
-        border-radius: 8px !important;
-        font-size: 12px !important;
-    }
-
-    .stButton > button {
-        background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%) !important;
-        color: var(--gold-light) !important;
-        border: 1px solid var(--border-bright) !important;
-        border-radius: 8px !important;
-        font-weight: 700 !important;
-        font-size: 11px !important;
-        letter-spacing: 1.5px !important;
-        text-transform: uppercase !important;
-        box-shadow: 0 2px 10px rgba(212,175,55,0.12) !important;
-        transition: all 0.2s ease !important;
-    }
-    .stButton > button:hover {
-        background: linear-gradient(135deg, #2A2A2A 0%, #1A1A1A 100%) !important;
-        box-shadow: 0 4px 18px rgba(212,175,55,0.30) !important;
-        border-color: var(--gold-light) !important;
-    }
-
-    [data-testid="stFileUploader"] {
-        background: #1A1A1A !important;
-        border: 2px dashed rgba(212,175,55,0.25) !important;
-        border-radius: 12px !important;
-        padding: 28px !important;
-    }
-    [data-testid="stAlert"] {
-        background: #1A1A1A !important;
-        border: 1px solid var(--border-dark) !important;
-        border-radius: 8px !important;
-        color: var(--sidebar-text) !important;
-    }
-
-    .stat-pill {
-        background: #1A1A1A;
-        border: 1px solid var(--border-dark);
-        border-radius: 8px;
-        padding: 6px 12px;
-        font-size: 11px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 5px;
-    }
+    .stat-pill { background: #1A1A1A; border: 1px solid rgba(212,175,55,0.12); border-radius: 8px; padding: 6px 12px; font-size: 11px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
     .stat-pill span:first-child { color: #999; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
-    .stat-pill span:last-child  { font-weight: 700; color: var(--gold-light); }
+    .stat-pill span:last-child  { font-weight: 700; color: #F1C40F; }
 
-    hr { border-color: var(--border-dark) !important; margin: 12px 0 !important; }
-    p, .stMarkdown p { color: var(--sidebar-text) !important; font-size: 12px !important; }
-    label { color: var(--gold-dim) !important; }
+    hr { border-color: rgba(212,175,55,0.12) !important; margin: 12px 0 !important; }
+    p, .stMarkdown p { color: #B0B0B0 !important; font-size: 12px !important; }
+    label { color: rgba(212,175,55,0.6) !important; }
 
     ::-webkit-scrollbar { width: 4px; height: 4px; }
     ::-webkit-scrollbar-track { background: #0A0A0A; }
@@ -393,45 +204,25 @@ TITLE_FONT = dict(size=15, color=TITLE_COLOR, family="Outfit, sans-serif")
 def _dark_layout(fig, xaxis_title, yaxis_title, extra_xaxis=None, height=500):
     xax = dict(
         title=dict(text=xaxis_title, font=AXIS_FONT, standoff=12),
-        tickfont=TICK_FONT,
-        tickangle=-90,
-        linecolor=AXIS_COLOR,
-        linewidth=1,
-        showgrid=False,
-        ticks="outside",
-        ticklen=4,
-        tickcolor=AXIS_COLOR,
-        automargin=True,
+        tickfont=TICK_FONT, tickangle=-90, linecolor=AXIS_COLOR, linewidth=1,
+        showgrid=False, ticks="outside", ticklen=4, tickcolor=AXIS_COLOR, automargin=True,
     )
-    if extra_xaxis:
-        xax.update(extra_xaxis)
-
+    if extra_xaxis: xax.update(extra_xaxis)
     fig.update_layout(
-        height=height,
-        font=dict(family="Outfit, sans-serif", size=11, color=TEXT_COLOR),
-        title_font=TITLE_FONT,
-        title_x=0.5,
-        paper_bgcolor=PAPER_BG,
-        plot_bgcolor=PLOT_BG,
+        height=height, font=dict(family="Outfit, sans-serif", size=11, color=TEXT_COLOR),
+        title_font=TITLE_FONT, title_x=0.5, paper_bgcolor=PAPER_BG, plot_bgcolor=PLOT_BG,
         margin=dict(t=70, b=140, l=70, r=30),
         xaxis=xax,
         yaxis=dict(
             title=dict(text=yaxis_title, font=AXIS_FONT, standoff=10),
-            tickfont=TICK_FONT,
-            linecolor=AXIS_COLOR,
-            linewidth=1,
-            gridcolor=GRID_COLOR,
-            gridwidth=1,
-            zeroline=False,
+            tickfont=TICK_FONT, linecolor=AXIS_COLOR, linewidth=1,
+            gridcolor=GRID_COLOR, gridwidth=1, zeroline=False,
         ),
-        coloraxis_showscale=False,
-        showlegend=False,
+        coloraxis_showscale=False, showlegend=False,
     )
     fig.update_traces(
         textfont=dict(size=10, color="#ffffff", family="Outfit, sans-serif"),
-        textangle=0,
-        textposition="outside",
-        cliponaxis=False,
+        textangle=0, textposition="outside", cliponaxis=False,
     )
     return fig
 
@@ -441,25 +232,17 @@ def show_html_table(table_data, display_name, table_height=420):
     if table_data.empty:
         st.info(f"No data for {display_name}")
         return
-
     display_df = table_data.copy()
     display_df = display_df.rename(columns={
-        'INITIAL_QTY':      'Initial Qty',
-        'TOTAL_QTY':        'Total Qty Sold',
-        'BALANCE':          'Balance Qty',
-        'SALES_PERCENTAGE': 'Sales %',
+        'INITIAL_QTY': 'Initial Qty', 'TOTAL_QTY': 'Total Qty Sold',
+        'BALANCE': 'Balance Qty', 'SALES_PERCENTAGE': 'Sales %',
     })
-
     display_df['Initial Qty']    = display_df['Initial Qty'].apply(lambda x: f"{int(x):,}")
     display_df['Total Qty Sold'] = display_df['Total Qty Sold'].apply(lambda x: f"{int(x):,}")
     display_df['Balance Qty']    = display_df['Balance Qty'].apply(lambda x: f"{int(x):,}")
     display_df['Sales %']        = display_df['Sales %'].apply(lambda x: f"{x:.1f}%")
-
     html = display_df.to_html(index=False, escape=False, border=0)
-    st.markdown(
-        f'<div class="table-scroll" style="max-height:{table_height}px;">{html}</div>',
-        unsafe_allow_html=True
-    )
+    st.markdown(f'<div class="table-scroll" style="max-height:{table_height}px;">{html}</div>', unsafe_allow_html=True)
 
 
 # ── Page header ───────────────────────────────────────────────────────────────
@@ -474,13 +257,10 @@ st.markdown("""
 <hr>
 """, unsafe_allow_html=True)
 
-uploaded_file = st.file_uploader(
-    "Upload Excel File with Sheets 'A' and 'B'",
-    type=['xlsx', 'xls']
-)
+uploaded_file = st.file_uploader("Upload Excel File with Sheets 'A' and 'B'", type=['xlsx', 'xls'])
 
 
-# ── Data loader (FIX: aggregate by COLAB with sum to keep correct quantities) ─
+# ── Data loader (aggregate Sheet A by COLAB to preserve correct totals) ──────
 @st.cache_data(ttl=3600)
 def load_and_process_data(uploaded_file):
     try:
@@ -496,7 +276,7 @@ def load_and_process_data(uploaded_file):
                     return df_cols_upper[name.upper().strip()]
             return None
 
-        # ── Sheet A ────────────────────────────────────────────────────────
+        # Sheet A
         season_col      = find_column(sheet_a, ['SEASON', 'Season'])
         brand_col       = find_column(sheet_a, ['BRAND', 'Brand'])
         category_col    = find_column(sheet_a, ['CATEGORY', 'Category'])
@@ -534,7 +314,7 @@ def load_and_process_data(uploaded_file):
             'BALANCE':     pd.to_numeric(sheet_a[balance_col], errors='coerce').fillna(0)
         })
 
-        # ✅ Aggregate by COLAB – sum quantities, keep first categorical value
+        # ✅ Aggregate by COLAB (sum quantities, keep first categorical value)
         agg_dict = {
             'SEASON': 'first', 'BRAND': 'first', 'CATEGORY': 'first',
             'SUBCATEGORY': 'first', 'STYLE_NAMES': 'first', 'STYLE_NO': 'first',
@@ -543,7 +323,7 @@ def load_and_process_data(uploaded_file):
         }
         sheet_a_unique = sheet_a_clean.groupby('COLAB', as_index=False).agg(agg_dict)
 
-        # ── Sheet B ────────────────────────────────────────────────────────
+        # Sheet B
         website_col    = find_column(sheet_b, ['WEBSITE', 'Website'])
         sku_col        = find_column(sheet_b, ['SKU', 'Sku'])
         size_col       = find_column(sheet_b, ['SIZE (US)', 'SIZE', 'Size US', 'Size'])
@@ -588,9 +368,7 @@ if uploaded_file is not None:
         with st.spinner('Loading and processing data…'):
             sheet_a_unique, sheet_b_raw = load_and_process_data(uploaded_file)
 
-        total_initial_qty = sheet_a_unique['INITIAL_QTY'].sum()
-        total_balance     = sheet_a_unique['BALANCE'].sum()
-        return_pct        = 35  # placeholder
+        return_pct = 35  # placeholder
 
         st.success(f"✅ Data loaded successfully! {len(sheet_a_unique):,} unique COLABs in stock")
         st.markdown("<hr>", unsafe_allow_html=True)
@@ -598,14 +376,9 @@ if uploaded_file is not None:
         # ── Sidebar ────────────────────────────────────────────────────────────
         with st.sidebar:
             st.markdown("### SORT TABLES")
-            sort_column = st.selectbox(
-                "Sort by",
-                ['Total Qty', 'Initial Qty', 'Balance', 'Sales%'],
-                key='sort_measure'
-            )
+            sort_column = st.selectbox("Sort by", ['Total Qty', 'Initial Qty', 'Balance', 'Sales%'], key='sort_measure')
             sort_order = st.radio("Order", ['Descending', 'Ascending'], horizontal=True)
             st.markdown("---")
-
             st.markdown("### TABLE HEIGHT")
             table_height = st.slider("Height (px):", 150, 1500, 420, 10)
             st.markdown("---")
@@ -618,19 +391,14 @@ if uploaded_file is not None:
             colabs        = sorted(sheet_a_unique['COLAB'].dropna().unique())
             websites      = sorted(sheet_b_raw['WEBSITE'].dropna().unique())
             sizes         = sorted(
-                sheet_b_raw[
-                    sheet_b_raw['SIZE_US'].notna() &
-                    (sheet_b_raw['SIZE_US'].str.strip() != '') &
-                    (~sheet_b_raw['SIZE_US'].str.upper().isin(['NAN', '0', 'NONE', 'N/A']))
-                ]['SIZE_US'].unique()
+                sheet_b_raw[sheet_b_raw['SIZE_US'].notna() &
+                            (sheet_b_raw['SIZE_US'].str.strip() != '') &
+                            (~sheet_b_raw['SIZE_US'].str.upper().isin(['NAN', '0', 'NONE', 'N/A']))
+                           ]['SIZE_US'].unique()
             )
             my_df = sheet_b_raw[sheet_b_raw['ORDER_DATE'].notna()].copy()
             if not my_df.empty:
-                my_df_agg = (
-                    my_df.groupby(['MONTH_NUM', 'YEAR_NUM', 'MONTH_YEAR'])
-                    .size().reset_index()
-                    .sort_values(['YEAR_NUM', 'MONTH_NUM'])
-                )
+                my_df_agg = my_df.groupby(['MONTH_NUM', 'YEAR_NUM', 'MONTH_YEAR']).size().reset_index().sort_values(['YEAR_NUM', 'MONTH_NUM'])
                 month_years = my_df_agg['MONTH_YEAR'].tolist()
             else:
                 month_years = []
@@ -647,32 +415,32 @@ if uploaded_file is not None:
             selected_sizes       = st.multiselect("Size (US)",  ['All'] + sizes,       default='All')
             selected_month_years = st.multiselect("Month-Year", ['All'] + month_years, default='All')
 
-            # ── Cross‑filter logic (corrected) ────────────────────────────────
-            # 1. COLABs that pass Sheet A filters
+            # ── Filter logic ───────────────────────────────────────────────────
+            # 1) COLABs from Sheet A after A filters
             filtered_a = sheet_a_unique.copy()
-            if 'All' not in selected_brands        and selected_brands:
+            if 'All' not in selected_brands and selected_brands:
                 filtered_a = filtered_a[filtered_a['BRAND'].isin(selected_brands)]
-            if 'All' not in selected_seasons       and selected_seasons:
+            if 'All' not in selected_seasons and selected_seasons:
                 filtered_a = filtered_a[filtered_a['SEASON'].isin(selected_seasons)]
-            if 'All' not in selected_categories    and selected_categories:
+            if 'All' not in selected_categories and selected_categories:
                 filtered_a = filtered_a[filtered_a['CATEGORY'].isin(selected_categories)]
             if 'All' not in selected_subcategories and selected_subcategories:
                 filtered_a = filtered_a[filtered_a['SUBCATEGORY'].isin(selected_subcategories)]
-            if 'All' not in selected_colors        and selected_colors:
+            if 'All' not in selected_colors and selected_colors:
                 filtered_a = filtered_a[filtered_a['COLOR'].isin(selected_colors)]
-            if 'All' not in selected_colabs        and selected_colabs:
+            if 'All' not in selected_colabs and selected_colabs:
                 filtered_a = filtered_a[filtered_a['COLAB'].isin(selected_colabs)]
 
             valid_a_colabs = set(filtered_a['COLAB'].unique())
 
-            # 2. Check if any Sheet B filter is actively selected (not 'All')
+            # 2) Determine if any B filter is active
             b_filter_active = (
-                ('All' not in selected_websites and len(selected_websites) > 0) or
-                ('All' not in selected_month_years and len(selected_month_years) > 0)
+                ('All' not in selected_websites and selected_websites) or
+                ('All' not in selected_month_years and selected_month_years)
             )
 
             if b_filter_active:
-                # Build temp B with only A‑valid COLABs, apply B filters, and intersect
+                # restrict to COLABs that also appear in B after B filters
                 temp_b = sheet_b_raw[sheet_b_raw['COLAB'].isin(valid_a_colabs)].copy()
                 if 'All' not in selected_websites and selected_websites:
                     temp_b = temp_b[temp_b['WEBSITE'].isin(selected_websites)]
@@ -681,10 +449,9 @@ if uploaded_file is not None:
                 valid_b_colabs = set(temp_b['COLAB'].unique())
                 valid_colabs = valid_a_colabs.intersection(valid_b_colabs)
             else:
-                # No B filter → show all A‑filtered COLABs
                 valid_colabs = valid_a_colabs.copy()
 
-            # 3. Final filtered datasets
+            # 3) Build final datasets
             filtered_sheet_a = sheet_a_unique[sheet_a_unique['COLAB'].isin(valid_colabs)].copy()
 
             filtered_b_final = sheet_b_raw[sheet_b_raw['COLAB'].isin(valid_colabs)].copy()
@@ -714,23 +481,29 @@ if uploaded_file is not None:
                 unsafe_allow_html=True
             )
 
-        # ── Guard ─────────────────────────────────────────────────────────────
+        # ── Guard clause ─────────────────────────────────────────────────────
         if len(valid_colabs) == 0:
             st.warning("⚠️ No COLABs match the selected filters. Please adjust your selections.")
             st.stop()
+
+        # ── Decide source for Total Qty Sold ────────────────────────────────
+        use_sheet_b_orders = b_filter_active   # True only when B filter is active
 
         # ── KPIs ─────────────────────────────────────────────────────────────
         st.markdown('<div class="section-heading">◈  Key Performance Indicators</div>', unsafe_allow_html=True)
 
         f_init = filtered_sheet_a['INITIAL_QTY'].sum()
         f_bal  = filtered_sheet_a['BALANCE'].sum()
-        f_sold = filtered_b_final['QTY'].sum()
-        f_spct = (f_sold / f_init * 100) if f_init > 0 else 0
+        if use_sheet_b_orders:
+            total_qty_sold = filtered_b_final['QTY'].sum()
+        else:
+            total_qty_sold = filtered_sheet_a['TOTAL_QTY'].sum()   # stock Total Qty
+        f_spct = (total_qty_sold / f_init * 100) if f_init > 0 else 0
 
         col1, col2, col3, col4, col5 = st.columns(5)
         kpis = [
             (col1, "📦", "Initial Qty",    f"{f_init:,.0f}"),
-            (col2, "💰", "Total Qty Sold", f"{f_sold:,.0f}"),
+            (col2, "💰", "Total Qty Sold", f"{total_qty_sold:,.0f}"),
             (col3, "⚖️", "Balance Qty",   f"{f_bal:,.0f}"),
             (col4, "🔄", "Return % Jan-Apr 2026",       f"{return_pct:.1f}%"),
             (col5, "📈", "Sales %",        f"{f_spct:.1f}%"),
@@ -749,17 +522,21 @@ if uploaded_file is not None:
         # ── Distribution tables ────────────────────────────────────────────
         st.markdown('<div class="section-heading">◈  Sales Distribution Tables</div>', unsafe_allow_html=True)
 
-        orders_agg = filtered_b_final.groupby('COLAB')['QTY'].sum().reset_index()
-        orders_agg.rename(columns={'QTY': 'TOTAL_QTY'}, inplace=True)
-
-        merged_for_tables = pd.merge(
-            filtered_sheet_a[['COLAB', 'BRAND', 'SEASON', 'CATEGORY', 'SUBCATEGORY', 'COLOR',
-                              'INITIAL_QTY', 'BALANCE']],
-            orders_agg,
-            on='COLAB',
-            how='left'   # left join because without B filters some COLABs may have no orders
-        )
-        merged_for_tables['TOTAL_QTY'] = merged_for_tables['TOTAL_QTY'].fillna(0)
+        if use_sheet_b_orders:
+            # When B filter is active, merge with orders
+            orders_agg = filtered_b_final.groupby('COLAB')['QTY'].sum().reset_index()
+            orders_agg.rename(columns={'QTY': 'TOTAL_QTY'}, inplace=True)
+            merged_for_tables = pd.merge(
+                filtered_sheet_a[['COLAB', 'BRAND', 'SEASON', 'CATEGORY', 'SUBCATEGORY', 'COLOR',
+                                  'INITIAL_QTY', 'BALANCE']],
+                orders_agg, on='COLAB', how='inner'   # only COLABs with orders
+            )
+        else:
+            # No B filter – use Sheet A's own TOTAL_QTY
+            merged_for_tables = filtered_sheet_a[['COLAB', 'BRAND', 'SEASON', 'CATEGORY',
+                                                   'SUBCATEGORY', 'COLOR', 'INITIAL_QTY',
+                                                   'BALANCE']].copy()
+            merged_for_tables['TOTAL_QTY'] = filtered_sheet_a['TOTAL_QTY']
 
         def analyze_group_crossfilter(group_col, display_name):
             if group_col not in merged_for_tables.columns:
@@ -792,127 +569,91 @@ if uploaded_file is not None:
                 if i + j < len(tables_config):
                     col_name, display_name = tables_config[i + j]
                     with cols[j]:
-                        st.markdown(
-                            f'<div class="card-title">◆  {display_name} Wise Distribution</div>',
-                            unsafe_allow_html=True
-                        )
+                        st.markdown(f'<div class="card-title">◆  {display_name} Wise Distribution</div>', unsafe_allow_html=True)
                         table_data = analyze_group_crossfilter(col_name, display_name)
                         show_html_table(table_data, display_name, table_height)
 
         st.markdown("<hr>", unsafe_allow_html=True)
 
-        # ── Visual Charts ──────────────────────────────────────────────────
+        # ── Visual Charts (always from orders; will be empty if no orders) ──
         st.markdown('<div class="section-heading">◈  Visual Analytics</div>', unsafe_allow_html=True)
 
-        # Marketplace
+        # Marketplace chart
         st.markdown('<div class="chart-wrap"><div class="chart-label">🌐  Marketplace Wise Qty Sold</div>', unsafe_allow_html=True)
         website_data = (
-            filtered_b_final[
-                filtered_b_final['WEBSITE'].notna() &
-                (filtered_b_final['WEBSITE'].str.strip() != '') &
-                (filtered_b_final['WEBSITE'].str.upper() != 'NAN')
-            ]
-            .groupby('WEBSITE')['QTY'].sum()
-            .reset_index()
-            .sort_values('QTY', ascending=False)
+            filtered_b_final[filtered_b_final['WEBSITE'].notna() &
+                             (filtered_b_final['WEBSITE'].str.strip() != '') &
+                             (filtered_b_final['WEBSITE'].str.upper() != 'NAN')
+                            ].groupby('WEBSITE')['QTY'].sum().reset_index().sort_values('QTY', ascending=False)
         )
         if not website_data.empty:
             n = len(website_data)
             bar_colors = [GOLD_PALETTE[i % len(GOLD_PALETTE)] for i in range(n)]
             fig_ws = go.Figure(go.Bar(
-                x=website_data['WEBSITE'],
-                y=website_data['QTY'],
+                x=website_data['WEBSITE'], y=website_data['QTY'],
                 text=website_data['QTY'].apply(lambda v: f"{v:,.0f}"),
                 marker=dict(color=bar_colors, line=dict(color='rgba(255,255,255,0.06)', width=1), cornerradius=6),
             ))
             fig_ws.update_layout(title="Sales by Marketplace till Apr 2026")
             fig_ws = _dark_layout(fig_ws, "Marketplace", "Quantity Sold",
-                                  extra_xaxis={'categoryorder': 'array',
-                                               'categoryarray': website_data['WEBSITE'].tolist()})
+                                  extra_xaxis={'categoryorder': 'array', 'categoryarray': website_data['WEBSITE'].tolist()})
             st.plotly_chart(fig_ws, use_container_width=True)
         else:
             st.info("No marketplace data available for the current filters")
         st.markdown("</div>", unsafe_allow_html=True)
 
-        # Size
+        # Size chart
         st.markdown('<div class="chart-wrap"><div class="chart-label">📏  Size Wise Qty Distribution</div>', unsafe_allow_html=True)
         size_data = (
-            filtered_b_final[
-                filtered_b_final['SIZE_US'].notna() &
-                (filtered_b_final['SIZE_US'].str.strip() != '') &
-                (~filtered_b_final['SIZE_US'].str.upper().isin(['NAN', '0', 'NONE', 'N/A']))
-            ]
-            .groupby('SIZE_US')['QTY'].sum()
-            .reset_index()
-            .sort_values('QTY', ascending=False)
+            filtered_b_final[filtered_b_final['SIZE_US'].notna() &
+                             (filtered_b_final['SIZE_US'].str.strip() != '') &
+                             (~filtered_b_final['SIZE_US'].str.upper().isin(['NAN', '0', 'NONE', 'N/A']))
+                            ].groupby('SIZE_US')['QTY'].sum().reset_index().sort_values('QTY', ascending=False)
         )
         if not size_data.empty:
             size_data['SIZE_LABEL'] = size_data['SIZE_US'].astype(str).str.strip()
             all_size_labels = size_data['SIZE_LABEL'].tolist()
             import plotly.colors as pc
             gradient = pc.sample_colorscale(
-                [[0, "#D4AF37"], [0.4, "#E67E22"], [0.8, "#F1C40F"], [1.0, "#C0932F"]],
-                max(len(size_data), 2)
+                [[0, "#D4AF37"], [0.4, "#E67E22"], [0.8, "#F1C40F"], [1.0, "#C0932F"]], max(len(size_data), 2)
             )
             fig_sz = go.Figure(go.Bar(
-                x=size_data['SIZE_LABEL'],
-                y=size_data['QTY'],
+                x=size_data['SIZE_LABEL'], y=size_data['QTY'],
                 text=size_data['QTY'].apply(lambda v: f"{v:,.0f}"),
                 marker=dict(color=gradient, line=dict(color='rgba(255,255,255,0.06)', width=1), cornerradius=6),
             ))
             fig_sz.update_layout(title="Sales by Size (US) till Apr 2026")
-            fig_sz = _dark_layout(
-                fig_sz, "Size (US)", "Quantity Sold",
-                extra_xaxis={
-                    'type': 'category',
-                    'categoryorder': 'array',
-                    'categoryarray': all_size_labels,
-                    'tickmode': 'array',
-                    'tickvals': all_size_labels,
-                    'ticktext': all_size_labels,
-                },
-                height=520
-            )
+            fig_sz = _dark_layout(fig_sz, "Size (US)", "Quantity Sold",
+                                  extra_xaxis={'type': 'category', 'categoryorder': 'array', 'categoryarray': all_size_labels,
+                                               'tickmode': 'array', 'tickvals': all_size_labels, 'ticktext': all_size_labels},
+                                  height=520)
             st.plotly_chart(fig_sz, use_container_width=True)
         else:
             st.info("No size data available for the current filters")
         st.markdown("</div>", unsafe_allow_html=True)
 
-        # Month-Year
+        # Month-Year chart
         st.markdown('<div class="chart-wrap"><div class="chart-label">📅  Month-Year Wise Qty Distribution</div>', unsafe_allow_html=True)
         monthly_b = filtered_b_final[filtered_b_final['ORDER_DATE'].notna()].copy()
         if not monthly_b.empty:
             monthly_b['MONTH_NUM']   = monthly_b['ORDER_DATE'].dt.month
             monthly_b['YEAR_NUM']    = monthly_b['ORDER_DATE'].dt.year
             monthly_b['MONTH_LABEL'] = monthly_b['ORDER_DATE'].dt.strftime('%b-%y')
-
-            monthly_agg = (
-                monthly_b.groupby(['MONTH_NUM', 'YEAR_NUM', 'MONTH_LABEL'])['QTY']
-                .sum().reset_index()
-                .sort_values(['MONTH_NUM', 'YEAR_NUM'])
-            )
+            monthly_agg = monthly_b.groupby(['MONTH_NUM', 'YEAR_NUM', 'MONTH_LABEL'])['QTY'].sum().reset_index().sort_values(['MONTH_NUM', 'YEAR_NUM'])
             ordered_labels = monthly_agg['MONTH_LABEL'].tolist()
-
             MONTH_COLORS = {
-                1: "#D4AF37", 2: "#F1C40F", 3: "#E6B800",
-                4: "#E67E22", 5: "#C0932F", 6: "#F4A261",
-                7: "#E9C46A", 8: "#3EAFBD", 9: "#2A9D8F",
-                10: "#52C4C0", 11: "#457B9D", 12: "#264653",
+                1: "#D4AF37", 2: "#F1C40F", 3: "#E6B800", 4: "#E67E22", 5: "#C0932F", 6: "#F4A261",
+                7: "#E9C46A", 8: "#3EAFBD", 9: "#2A9D8F", 10: "#52C4C0", 11: "#457B9D", 12: "#264653",
             }
             bar_colors = [MONTH_COLORS.get(m, "#D4AF37") for m in monthly_agg['MONTH_NUM']]
-
             fig_mo = go.Figure(go.Bar(
-                x=monthly_agg['MONTH_LABEL'],
-                y=monthly_agg['QTY'],
+                x=monthly_agg['MONTH_LABEL'], y=monthly_agg['QTY'],
                 text=monthly_agg['QTY'].apply(lambda v: f"{v:,.0f}"),
                 marker=dict(color=bar_colors, line=dict(color='rgba(255,255,255,0.06)', width=1), cornerradius=5),
             ))
             fig_mo.update_layout(title="Sales by Month-Year till Apr 2026")
-            fig_mo = _dark_layout(
-                fig_mo, "Month-Year", "Quantity Sold",
-                extra_xaxis={'categoryorder': 'array', 'categoryarray': ordered_labels},
-                height=540
-            )
+            fig_mo = _dark_layout(fig_mo, "Month-Year", "Quantity Sold",
+                                  extra_xaxis={'categoryorder': 'array', 'categoryarray': ordered_labels}, height=540)
             st.plotly_chart(fig_mo, use_container_width=True)
         else:
             st.info("No order date data available for the current filters")
