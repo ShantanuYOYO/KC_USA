@@ -37,7 +37,7 @@ st.markdown("""
         background: var(--bg-base) !important;
     }
 
-    /* ── Dot-grid background ──────────────────────────────────────────── */
+    /* ── Dot‑grid background ──────────────────────────────────────────── */
     [data-testid="stAppViewContainer"]::before {
         content: '';
         position: fixed; inset: 0;
@@ -215,7 +215,6 @@ st.markdown("""
         padding: 10px 12px;
         text-align: left !important;
         white-space: nowrap;
-        /* ── Clean look & STICKY ── */
         border: none !important;
         position: sticky;
         top: 0;
@@ -235,7 +234,6 @@ st.markdown("""
     }
     .table-scroll td:last-child { border-right: none; }
 
-    /* Numeric columns (2nd onwards) — gold + centered */
     .table-scroll td:not(:first-child) {
         text-align: center;
         font-weight: 900;
@@ -438,7 +436,7 @@ def _dark_layout(fig, xaxis_title, yaxis_title, extra_xaxis=None, height=500):
     return fig
 
 
-# ── HTML table renderer (gold/dark theme, sticky headers already in CSS) ─────
+# ── HTML table renderer ─────────────────────────────────────────────────────
 def show_html_table(table_data, display_name, table_height=420):
     if table_data.empty:
         st.info(f"No data for {display_name}")
@@ -482,7 +480,7 @@ uploaded_file = st.file_uploader(
 )
 
 
-# ── Data loader (FIX: aggregate by COLAB to preserve total quantities) ──────
+# ── Data loader (FIX: aggregate by COLAB with sum to keep correct quantities) ─
 @st.cache_data(ttl=3600)
 def load_and_process_data(uploaded_file):
     try:
@@ -536,18 +534,12 @@ def load_and_process_data(uploaded_file):
             'BALANCE':     pd.to_numeric(sheet_a[balance_col], errors='coerce').fillna(0)
         })
 
-        # ✅ Aggregate by COLAB to sum quantities and keep one row per COLAB
+        # ✅ Aggregate by COLAB – sum quantities, keep first categorical value
         agg_dict = {
-            'SEASON': 'first',
-            'BRAND': 'first',
-            'CATEGORY': 'first',
-            'SUBCATEGORY': 'first',
-            'STYLE_NAMES': 'first',
-            'STYLE_NO': 'first',
+            'SEASON': 'first', 'BRAND': 'first', 'CATEGORY': 'first',
+            'SUBCATEGORY': 'first', 'STYLE_NAMES': 'first', 'STYLE_NO': 'first',
             'COLOR': 'first',
-            'INITIAL_QTY': 'sum',
-            'TOTAL_QTY': 'sum',
-            'BALANCE': 'sum',
+            'INITIAL_QTY': 'sum', 'TOTAL_QTY': 'sum', 'BALANCE': 'sum'
         }
         sheet_a_unique = sheet_a_clean.groupby('COLAB', as_index=False).agg(agg_dict)
 
@@ -597,9 +589,7 @@ if uploaded_file is not None:
             sheet_a_unique, sheet_b_raw = load_and_process_data(uploaded_file)
 
         total_initial_qty = sheet_a_unique['INITIAL_QTY'].sum()
-        total_qty_sold    = sheet_a_unique['TOTAL_QTY'].sum()  # only for initial placeholder
         total_balance     = sheet_a_unique['BALANCE'].sum()
-        sales_pct         = (total_qty_sold / total_initial_qty * 100) if total_initial_qty > 0 else 0
         return_pct        = 35  # placeholder
 
         st.success(f"✅ Data loaded successfully! {len(sheet_a_unique):,} unique COLABs in stock")
@@ -620,7 +610,6 @@ if uploaded_file is not None:
             table_height = st.slider("Height (px):", 150, 1500, 420, 10)
             st.markdown("---")
 
-            # Dimension lists
             brands        = sorted(sheet_a_unique['BRAND'].dropna().unique())
             seasons       = sorted(sheet_a_unique['SEASON'].dropna().unique())
             categories    = sorted(sheet_a_unique['CATEGORY'].dropna().unique())
@@ -658,7 +647,8 @@ if uploaded_file is not None:
             selected_sizes       = st.multiselect("Size (US)",  ['All'] + sizes,       default='All')
             selected_month_years = st.multiselect("Month-Year", ['All'] + month_years, default='All')
 
-            # ── Cross‑filter logic: intersection of Sheet A and Sheet B COLABs ──
+            # ── Cross‑filter logic (corrected) ────────────────────────────────
+            # 1. COLABs that pass Sheet A filters
             filtered_a = sheet_a_unique.copy()
             if 'All' not in selected_brands        and selected_brands:
                 filtered_a = filtered_a[filtered_a['BRAND'].isin(selected_brands)]
@@ -675,16 +665,26 @@ if uploaded_file is not None:
 
             valid_a_colabs = set(filtered_a['COLAB'].unique())
 
-            filtered_b_intersect = sheet_b_raw[sheet_b_raw['COLAB'].isin(valid_a_colabs)].copy()
-            if 'All' not in selected_websites and selected_websites:
-                filtered_b_intersect = filtered_b_intersect[filtered_b_intersect['WEBSITE'].isin(selected_websites)]
-            if 'All' not in selected_month_years and selected_month_years:
-                filtered_b_intersect = filtered_b_intersect[filtered_b_intersect['MONTH_YEAR'].isin(selected_month_years)]
+            # 2. Check if any Sheet B filter is actively selected (not 'All')
+            b_filter_active = (
+                ('All' not in selected_websites and len(selected_websites) > 0) or
+                ('All' not in selected_month_years and len(selected_month_years) > 0)
+            )
 
-            valid_b_colabs = set(filtered_b_intersect['COLAB'].unique())
-            valid_colabs = valid_a_colabs.intersection(valid_b_colabs)
+            if b_filter_active:
+                # Build temp B with only A‑valid COLABs, apply B filters, and intersect
+                temp_b = sheet_b_raw[sheet_b_raw['COLAB'].isin(valid_a_colabs)].copy()
+                if 'All' not in selected_websites and selected_websites:
+                    temp_b = temp_b[temp_b['WEBSITE'].isin(selected_websites)]
+                if 'All' not in selected_month_years and selected_month_years:
+                    temp_b = temp_b[temp_b['MONTH_YEAR'].isin(selected_month_years)]
+                valid_b_colabs = set(temp_b['COLAB'].unique())
+                valid_colabs = valid_a_colabs.intersection(valid_b_colabs)
+            else:
+                # No B filter → show all A‑filtered COLABs
+                valid_colabs = valid_a_colabs.copy()
 
-            # Final filtered datasets
+            # 3. Final filtered datasets
             filtered_sheet_a = sheet_a_unique[sheet_a_unique['COLAB'].isin(valid_colabs)].copy()
 
             filtered_b_final = sheet_b_raw[sheet_b_raw['COLAB'].isin(valid_colabs)].copy()
@@ -714,12 +714,12 @@ if uploaded_file is not None:
                 unsafe_allow_html=True
             )
 
-        # ── Guard clause ─────────────────────────────────────────────────────
+        # ── Guard ─────────────────────────────────────────────────────────────
         if len(valid_colabs) == 0:
             st.warning("⚠️ No COLABs match the selected filters. Please adjust your selections.")
             st.stop()
 
-        # ── KPIs ────────────────────────────────────────────────────────
+        # ── KPIs ─────────────────────────────────────────────────────────────
         st.markdown('<div class="section-heading">◈  Key Performance Indicators</div>', unsafe_allow_html=True)
 
         f_init = filtered_sheet_a['INITIAL_QTY'].sum()
@@ -746,7 +746,7 @@ if uploaded_file is not None:
 
         st.markdown("<hr>", unsafe_allow_html=True)
 
-        # ── Distribution tables ───────────────────────────────────────────
+        # ── Distribution tables ────────────────────────────────────────────
         st.markdown('<div class="section-heading">◈  Sales Distribution Tables</div>', unsafe_allow_html=True)
 
         orders_agg = filtered_b_final.groupby('COLAB')['QTY'].sum().reset_index()
@@ -757,8 +757,9 @@ if uploaded_file is not None:
                               'INITIAL_QTY', 'BALANCE']],
             orders_agg,
             on='COLAB',
-            how='inner'
+            how='left'   # left join because without B filters some COLABs may have no orders
         )
+        merged_for_tables['TOTAL_QTY'] = merged_for_tables['TOTAL_QTY'].fillna(0)
 
         def analyze_group_crossfilter(group_col, display_name):
             if group_col not in merged_for_tables.columns:
@@ -800,7 +801,7 @@ if uploaded_file is not None:
 
         st.markdown("<hr>", unsafe_allow_html=True)
 
-        # ── Visual Charts ────────────────────────────────────────────────
+        # ── Visual Charts ──────────────────────────────────────────────────
         st.markdown('<div class="section-heading">◈  Visual Analytics</div>', unsafe_allow_html=True)
 
         # Marketplace
@@ -833,7 +834,7 @@ if uploaded_file is not None:
             st.info("No marketplace data available for the current filters")
         st.markdown("</div>", unsafe_allow_html=True)
 
-        # Size chart
+        # Size
         st.markdown('<div class="chart-wrap"><div class="chart-label">📏  Size Wise Qty Distribution</div>', unsafe_allow_html=True)
         size_data = (
             filtered_b_final[
@@ -877,7 +878,7 @@ if uploaded_file is not None:
             st.info("No size data available for the current filters")
         st.markdown("</div>", unsafe_allow_html=True)
 
-        # Month-Year chart
+        # Month-Year
         st.markdown('<div class="chart-wrap"><div class="chart-label">📅  Month-Year Wise Qty Distribution</div>', unsafe_allow_html=True)
         monthly_b = filtered_b_final[filtered_b_final['ORDER_DATE'].notna()].copy()
         if not monthly_b.empty:
